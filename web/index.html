@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AwesEvo</title>
+<link rel="stylesheet" href="/css/app.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563eb'/><path d='M9 23L16 9l7 14M12.2 18h7.6' stroke='white' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>" />
+</head>
+<body>
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M9 4v16" stroke="currentColor" stroke-width="1.7"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M5 12h13M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2" fill="currentColor"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7.5A2 2 0 0 1 5 5.5h4l2 2.5h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3.5h7l5 5v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M13 3.5v5h5" stroke="currentColor" stroke-width="1.6" fill="none"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M12 3v2.2M12 18.8V21M21 12h-2.2M5.2 12H3M18.4 5.6l-1.6 1.6M7.2 16.8l-1.6 1.6M18.4 18.4l-1.6-1.6M7.2 7.2L5.6 5.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M15 6.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h1.5" stroke="currentColor" stroke-width="1.6" fill="none"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.5 6.5a3.5 3.5 0 0 0 4.6 4.6L11 19.2a2.4 2.4 0 0 1-3.4-3.4z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M4 4l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M8 11l4 4 4-4M5 19h14" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></symbol>
+</svg>
+
+<div class="app" id="app">
+  <!-- ============ 侧栏 ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="brand">
+        <div class="brand-mark">A</div>
+        <div class="brand-text">
+          <strong>AwesEvo</strong>
+          <span>本地工作台</span>
+        </div>
+      </div>
+      <button class="icon-btn" id="btnNew" title="新会话 (Ctrl+N)">
+        <svg><use href="#i-plus"/></svg>
+      </button>
+    </div>
+
+    <div class="seg" id="sideTabs">
+      <button class="seg-btn active" data-tab="sessions">会话</button>
+      <button class="seg-btn" data-tab="files">文件</button>
+    </div>
+
+    <div class="side-panel" id="panelSessions">
+      <div class="session-list" id="sessionList"></div>
+    </div>
+
+    <div class="side-panel hidden" id="panelFiles">
+      <div class="ws-row">
+        <svg class="ws-ico"><use href="#i-folder"/></svg>
+        <input id="wsPath" class="ws-input" spellcheck="false" placeholder="工作区路径" />
+        <button class="mini-btn" id="wsApply">切换</button>
+      </div>
+      <div class="ws-hint">
+        <button class="link-btn" id="wsApp" title="切回工作区；如果当前在 C 盘，会自动跳到空闲最多的盘">切回工作区</button>
+      </div>
+      <div class="file-tree" id="fileTree"></div>
+    </div>
+
+    <div class="sidebar-clock" id="sidebarClock">
+      <div class="clock-time" id="clockTime">--:--:--</div>
+      <div class="clock-date" id="clockDate">加载中…</div>
+    </div>
+
+    <div class="sidebar-foot">
+      <button class="foot-btn" id="btnSettings">
+        <svg><use href="#i-gear"/></svg><span>设置</span>
+      </button>
+      <button class="foot-btn" id="btnTheme" title="切换主题">
+        <span id="themeLabel">浅色</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============ 主区 ============ -->
+  <main class="main">
+    <header class="topbar">
+      <button class="icon-btn ghost" id="btnSidebar" title="折叠侧栏">
+        <svg><use href="#i-panel"/></svg>
+      </button>
+      <div class="title-wrap">
+        <input class="session-title" id="sessionTitle" value="新会话" spellcheck="false" />
+        <span class="sub" id="sessionSub"></span>
+      </div>
+      <div class="top-actions">
+        <div class="pill-select" id="promptSelectWrap">
+          <button class="pill" id="btnPrompt">
+            <svg class="pill-ico"><use href="#i-spark"/></svg>
+            <span id="promptLabel">编码 Agent</span>
+            <svg class="pill-caret"><use href="#i-chev"/></svg>
+          </button>
+          <div class="menu" id="promptMenu"></div>
+        </div>
+        <div class="pill-select" id="modelSelectWrap">
+          <button class="pill" id="btnModel">
+            <span class="dot" id="modelDot"></span>
+            <span id="modelLabel">deepseek-chat</span>
+            <svg class="pill-caret"><use href="#i-chev"/></svg>
+          </button>
+          <div class="menu wide" id="modelMenu"></div>
+        </div>
+        <div class="mode-switch" id="modeSwitch">
+          <button data-mode="readonly" title="只读：不允许改文件、跑命令">只读</button>
+          <button data-mode="ask" title="写入前询问你">确认</button>
+          <button data-mode="auto" class="active" title="自动执行工具">自动</button>
+        </div>
+        <button class="icon-btn ghost" id="btnInspector" title="检查器">
+          <svg><use href="#i-panel"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="messages" id="messages">
+      <div class="welcome" id="welcome">
+        <div class="welcome-inner">
+          <div class="welcome-mark">A</div>
+          <h1>今天想做什么？</h1>
+          <p class="welcome-sub">接上你自己的 API，选个提示词模板，剩下的交给 Agent。</p>
+          <div class="starter-grid" id="starterGrid"></div>
+        </div>
+      </div>
+      <div class="msg-list" id="msgList"></div>
+    </section>
+
+    <button class="jump-latest" id="btnJumpLatest" title="回到最新消息">
+      <svg><use href="#i-chev"/></svg>
+    </button>
+
+    <footer class="composer-wrap">
+      <div class="composer" id="composer">
+        <div class="mention-pop" id="mentionPop"></div>
+        <textarea id="input" rows="1" placeholder="描述你的任务…  Enter 发送，Shift+Enter 换行，@ 引用文件" spellcheck="false"></textarea>
+        <div class="composer-bar">
+          <div class="composer-left">
+            <button class="chip" id="btnWorkspace">
+              <svg><use href="#i-folder"/></svg>
+              <span id="wsLabel">workspace</span>
+            </button>
+            <span class="meta" id="ctxMeta"></span>
+          </div>
+          <div class="composer-right">
+            <button class="send-btn" id="btnSend" title="发送">
+              <svg><use href="#i-send"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="composer-hint" id="composerHint"></div>
+    </footer>
+  </main>
+
+  <!-- ============ 检查器 ============ -->
+  <aside class="inspector" id="inspector">
+    <div class="insp-head">
+      <div class="seg small" id="inspTabs">
+        <button class="seg-btn active" data-tab="prompt">提示词</button>
+        <button class="seg-btn" data-tab="params">参数</button>
+        <button class="seg-btn" data-tab="tools">工具</button>
+      </div>
+      <button class="icon-btn ghost" id="btnInspClose"><svg><use href="#i-close"/></svg></button>
+    </div>
+
+    <div class="insp-body" id="inspBody">
+      <!-- 提示词 -->
+      <div class="insp-pane" data-pane="prompt">
+        <label class="field-label">当前模板</label>
+        <div class="row">
+          <select id="inspPromptSelect" class="input"></select>
+          <button class="mini-btn" id="btnPromptNew">新建</button>
+        </div>
+        <p class="hint" id="promptDesc"></p>
+
+        <label class="field-label">变量</label>
+        <div class="var-list" id="varList"></div>
+
+        <label class="field-label">
+          System Prompt
+          <span class="label-right">
+            <button class="link-btn" id="btnPreviewSystem">预览渲染</button>
+          </span>
+        </label>
+        <textarea id="promptEditor" class="code-input" spellcheck="false" placeholder="写点什么… 支持 {{workspace}} {{date}} {{变量名}}"></textarea>
+        <div class="row gap">
+          <button class="mini-btn primary" id="btnPromptSave">保存</button>
+          <button class="mini-btn" id="btnPromptRevert">恢复默认</button>
+          <button class="mini-btn danger" id="btnPromptDelete">删除</button>
+        </div>
+        <pre class="rendered" id="renderedPreview" hidden></pre>
+      </div>
+
+      <!-- 参数 -->
+      <div class="insp-pane hidden" data-pane="params">
+        <div class="slider-field">
+          <div class="slider-head"><span>温度</span><b id="valTemp">0.7</b></div>
+          <input type="range" id="pTemp" min="0" max="2" step="0.05" value="0.7" />
+          <p class="hint">低=稳定保守，高=发散有创意。写代码建议 0.2~0.5。</p>
+        </div>
+        <div class="slider-field">
+          <div class="slider-head"><span>Top P</span><b id="valTopP">1</b></div>
+          <input type="range" id="pTopP" min="0.1" max="1" step="0.05" value="1" />
+        </div>
+        <label class="field-label">最大输出 tokens</label>
+        <input class="input" id="pMaxTokens" type="number" min="256" max="128000" step="256" />
+        <div class="two-col">
+          <div>
+            <label class="field-label">频率惩罚</label>
+            <input class="input" id="pFreq" type="number" min="0" max="2" step="0.1" />
+          </div>
+          <div>
+            <label class="field-label">存在惩罚</label>
+            <input class="input" id="pPres" type="number" min="0" max="2" step="0.1" />
+          </div>
+        </div>
+        <label class="field-label">最大 Agent 步数</label>
+        <input class="input" id="pMaxSteps" type="number" min="1" max="60" />
+        <p class="hint">一步 = 一次模型调用。工具调用会消耗多步，默认 24。</p>
+        <div class="row gap">
+          <button class="mini-btn primary" id="btnParamsSave">应用参数</button>
+          <button class="mini-btn" id="btnParamsReset">恢复默认</button>
+        </div>
+      </div>
+
+      <!-- 工具 -->
+      <div class="insp-pane hidden" data-pane="tools">
+        <p class="hint">关掉的工具不会出现在请求里，模型也不知道它存在。</p>
+        <div class="tool-list" id="toolList"></div>
+        <label class="switch-row">
+          <span>Enter 直接发送</span>
+          <input type="checkbox" id="swEnter" class="switch" />
+        </label>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- ============ 设置弹窗 ============ -->
+<div class="modal-mask" id="settingsMask">
+  <div class="modal" id="settingsModal">
+    <div class="modal-head">
+      <h2>设置</h2>
+      <button class="icon-btn ghost" id="btnSettingsClose"><svg><use href="#i-close"/></svg></button>
+    </div>
+    <div class="modal-tabs" id="settingsTabs">
+      <button class="tab-btn active" data-tab="api">模型与 API</button>
+      <button class="tab-btn" data-tab="general">通用</button>
+      <button class="tab-btn" data-tab="runtime">后台</button>
+      <button class="tab-btn" data-tab="about">关于</button>
+    </div>
+    <div class="modal-body" id="settingsBody"></div>
+  </div>
+</div>
+
+<!-- ============ 确认弹窗 ============ -->
+<div class="modal-mask" id="confirmMask">
+  <div class="modal small">
+    <div class="modal-head">
+      <h2>需要你确认</h2>
+    </div>
+    <div class="modal-body">
+      <p class="confirm-title">Agent 想执行：<code id="confirmTool"></code></p>
+      <pre class="confirm-args" id="confirmArgs"></pre>
+      <p class="hint">自动模式下只对高风险命令询问，可在顶栏切换为「确认」模式逐次确认。</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost" id="btnConfirmNo">拒绝</button>
+      <button class="btn primary" id="btnConfirmYes">允许执行</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 文件预览 ============ -->
+<div class="modal-mask" id="fileMask">
+  <div class="modal wide">
+    <div class="modal-head">
+      <h2 id="fileTitle">文件</h2>
+      <div class="row" style="gap:5px">
+        <button class="mini-btn" id="btnFileCopy">复制路径</button>
+        <button class="icon-btn ghost" id="btnFileClose"><svg><use href="#i-close"/></svg></button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <pre class="file-preview" id="filePreview"></pre>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- ============ 首次引导 ============ -->
+<div class="onboard" id="onboard">
+  <div class="onboard-card">
+    <div class="onboard-mark">A</div>
+    <h1>先定一下 AI 的活动范围</h1>
+    <p class="onboard-sub">它只能在你允许的范围内读写文件。随时可以在设置里改。</p>
+
+    <div class="mode-cards">
+      <div class="mode-card selected" data-mode="workspace">
+        <div class="mc-head">
+          <span class="mc-radio"></span>
+          <b>专用工作区</b>
+          <span class="mc-tag">推荐</span>
+        </div>
+        <p class="mc-desc">只在一个文件夹里活动，其他地方一律拒绝。适合专注做一个项目。</p>
+        <input class="input mc-input" id="onboardWs" placeholder="工作区路径" spellcheck="false" />
+        <div class="mc-disk" id="onboardDiskHint"></div>
+        <div class="mc-quick" id="onboardQuick"></div>
+      </div>
+
+      <div class="mode-card" data-mode="full">
+        <div class="mc-head">
+          <span class="mc-radio"></span>
+          <b>全权接管</b>
+        </div>
+        <p class="mc-desc">整个用户目录都能读写，适合整理电脑、跨项目操作。</p>
+        <div class="mc-path" id="onboardHome">—</div>
+        <ul class="mc-note">
+          <li>系统目录（Windows、Program Files）永久拒绝</li>
+          <li>密钥目录（.ssh、.gnupg）永久拒绝</li>
+        </ul>
+      </div>
+    </div>
+
+    <button class="btn primary onboard-go" id="btnOnboardGo">开始使用</button>
+  </div>
+</div>
+
+<div class="reload-bar" id="reloadBar">
+  <span id="reloadText">界面文件已更新</span>
+  <button class="reload-btn" id="btnReload">刷新查看</button>
+  <button class="reload-x" id="btnReloadClose" title="稍后再说">×</button>
+</div>
+
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>
